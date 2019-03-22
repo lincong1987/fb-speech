@@ -1,0 +1,35 @@
+{
+  "entrys": [],
+  "ignores": [],
+  "paths": {
+    "/Users/lincong/projects/fb-js/fb-speech": [
+      "examples",
+      "src"
+    ],
+    "/Users/lincong/projects/fb-js/fb-speech/src": [
+      "index.js"
+    ],
+    "/Users/lincong/projects/fb-js/fb-speech/examples": [
+      "app",
+      "index.html",
+      "index.js",
+      "resource",
+      "test.html"
+    ],
+    "/Users/lincong/projects/fb-js/fb-speech/examples/app": [
+      "index",
+      "login",
+      "main",
+      "welcome"
+    ],
+    "/Users/lincong/projects/fb-js/fb-speech/examples/resource": [],
+    "/Users/lincong/projects/fb-js/fb-speech/examples/app/index": [
+      "index.html",
+      "index.js"
+    ],
+    "/Users/lincong/projects/fb-js/fb-speech/examples/app/login": [],
+    "/Users/lincong/projects/fb-js/fb-speech/examples/app/main": [],
+    "/Users/lincong/projects/fb-js/fb-speech/examples/app/welcome": []
+  },
+  "absPaths": []
+}

@@ -1,0 +1,23 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": false,
+        "debug": false,
+        "modules": false,
+        "loose": true,
+        "targets": {
+          "browsers": [
+            "last 2 versions",
+            "ie >= 7"
+          ]
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-async-generator-functions",
+    "@babel/transform-runtime"
+  ]
+}

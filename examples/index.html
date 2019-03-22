@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>录音测试</title>
+</head>
+
+<body>
+    <div>
+        <div id="J_recorder" style="display: none"></audio>
+        </div>
+        <div>
+            <p>IE 和 Safari 全版本不支持录音功能</p>
+        </div>
+        <div>
+            <button id="J_start" type="button">录音</button>
+            <button id="J_stop" type="button" disabled>停止</button>
+            <button id="J_play" type="button" disabled>播放</button>
+            <button id="J_upload" type="button" disabled>上传</button>
+            <button id="J_clear" type="button" disabled>重置</button>
+        </div>
+
+        <div>
+            <textarea id="logs" style="width: 500px; height: 200px"></textarea>
+        </div>
+
+        <script src="../dist/fb-speech.js"></script>
+
+        <!-- <script src="../src/index.js"></script> -->
+        <script>
+
+            var J_recorder = document.getElementById("J_recorder");
+
+            let J_start = document.getElementById("J_start");
+            let J_stop = document.getElementById("J_stop");
+            let J_play = document.getElementById("J_play");
+            let J_upload = document.getElementById("J_upload");
+            let J_clear = document.getElementById("J_clear");
+
+            let J_audio;
+
+            var recorder;
+            var log = (msg) => {
+                logs.value += msg + "\n"
+            };
+
+            log("日志");
+
+            J_start.addEventListener("click", async (e) => {
+                recorder = await new FireBirdRecorder().catch(e => { log(e) });
+                recorder.start();
+                log("开始录音");
+                J_start.disabled = true
+                J_stop.disabled = false
+            });
+
+            J_stop.addEventListener("click", (e) => {
+                J_recorder.style.display = "block";
+                recorder.stop();
+                log("停止录音");
+                //J_start.disabled = true
+                J_stop.disabled = true
+                J_play.disabled = false
+                J_upload.disabled = false
+                J_clear.disabled = false
+                J_play.click();
+            });
+
+            J_play.addEventListener("click", (e) => {
+                if (!J_audio) {
+                    J_audio = document.createElement('audio');
+                    J_recorder.appendChild(J_audio);
+                    recorder.play(J_audio);
+                }
+                J_audio.play();
+            });
+
+            J_upload.addEventListener("click", (e) => {
+                let blob = recorder.getBlob();
+                let fr = new FileReader();
+                fr.onload = function (e) {
+                    log("base64:")
+                    log(e.target.result)
+                }
+                fr.readAsDataURL(blob);
+
+            });
+
+            J_clear.addEventListener("click", (e) => {
+                recorder.stop();
+                recorder.clear();
+
+                J_audio.pause();
+                J_recorder.removeChild(J_audio);
+                J_audio = null;
+
+                
+                J_start.disabled = false
+                J_stop.disabled = true
+                J_play.disabled = true
+                J_upload.disabled = true
+                J_clear.disabled = true
+
+                logs.value = "";
+                log("重置录音");
+            });
+
+
+
+
+        </script>
+
+
+        <script type="text">
+        var recorder;
+        var audio = document.querySelector('audio');
+        function startRecording() {
+            Recorder.get(function (rec) {
+                recorder = rec;
+                recorder.start();
+            });
+        }
+        function stopRecording() {
+            recorder.stop();
+        }
+        function playRecording() {
+            recorder.play(audio);
+        }
+        function cancelAudio(){
+            recorder.stop();
+            recorder.clear();
+        }
+        function uploadAudio() {
+            recorder.upload("/upload", function (state, e) {
+                switch (state) {
+                    case 'uploading':
+                        //var percentComplete = Math.round(e.loaded * 100 / e.total) + '%';
+                        break;
+                    case 'ok':
+                        //alert(e.target.responseText);
+                        alert("上传成功");
+                        break;
+                    case 'error':
+                        alert("上传失败");
+                        break;
+                    case 'cancel':
+                        alert("上传被取消");
+                        break;
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>
